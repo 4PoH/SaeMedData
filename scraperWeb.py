@@ -42,25 +42,21 @@ sheet3 = file["3 - Publications_ObsStudies"]
 sheet4 = file["4 - Publications_RandTrials"]
 counter = 0
 
-#Parcours Publi 1
+#Parcours Publi Obs
 for i in range(2, sheet3.max_row):
     url = sheet3.cell(i ,8)
     string = getStringFromUrl(url)
-#Parcours Test 1
     if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet1 ,ligne=i):
         counter = counter + 1
-#Parcours Test 2
     if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet2 ,ligne=i):
         counter = counter + 1
 
-#Parcours Publi 1
+#Parcours Publi Rand
 for i in range(2, sheet4.max_row):
     url = sheet4.cell(i ,8)
     string = getStringFromUrl(url)
-#Parcours Test 1
     if parcourTest(sheetPubli=sheet4 ,sheetTest=sheet1 ,ligne=i):
         counter = counter + 1
-#Parcours Test 2
     if parcourTest(sheetPubli=sheet4 ,sheetTest=sheet2 ,ligne=i):
         counter = counter + 1
 
