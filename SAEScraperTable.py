@@ -59,11 +59,15 @@ for i in range(2, sheet1.max_row):
         decoupe = re.findall(r"'(.*?)'", string)
         for j in range (len(decoupe)):
             if estIdentifiant(decoupe[j]):
-                if j+1 < len(decoupe):
-                    if not estIdentifiant(decoupe[j+1]):
-                        data = decoupe[j+1]
+                for g in range(j+1 ,len(decoupe)):
+                    if not estIdentifiant(decoupe[g]):
+                        data = decoupe[g]
                         num = getNumString(decoupe[j])
-                        sheet1.cell(row=i, column=num).value=data
+                        value = sheet1.cell(row=i, column=num).value
+                        if value == None:
+                            sheet1.cell(row=i, column=num).value = data
+                        else:
+                            sheet1.cell(row=i, column=num).value = value + '#/#' + data
 
 for i in range(2, sheet2.max_row):
     string = sheet2.cell(row = i, column = 8).value
@@ -71,10 +75,15 @@ for i in range(2, sheet2.max_row):
         decoupe = re.findall(r"'(.*?)'", string)
         for j in range (len(decoupe)):
             if estIdentifiant(decoupe[j]):
-                if j+1 < len(decoupe):
-                    if not estIdentifiant(decoupe[j+1]):
-                        data = decoupe[j+1]
+                for g in range(j+1 ,len(decoupe)):
+                    if not estIdentifiant(decoupe[g]):
+                        data = decoupe[g]
                         num = getNumString(decoupe[j])
-                        sheet2.cell(row=i, column=num).value=data
+                        value = sheet2.cell(row=i, column=num).value
+                        if value == None:
+                            sheet2.cell(row=i, column=num).value = data
+                        else:
+                            sheet2.cell(row=i, column=num).value = sheet2.cell(row=i, column=num).value + '#/#' + data
+
 
 file.save(path)
