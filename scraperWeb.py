@@ -12,23 +12,31 @@ def getStringFromUrl(url):
             for page in range(len(readPdf.pages)):
                 string = readPdf.pages[page].extract_text().encode('utf8')
         except:
-            driver = webdriver.Firefox()
+            driver = webdriver.Chrome()
             driver.get(url)
             string = driver.page_source.encode('utf8')
             driver.quit()
+    string = string.decode('utf8')
     return(string)
 
-def parcourTest(sheetPubli, sheetTest, ligne) :
+def parcourTest(sheetPubli, sheetTest, ligne, string) :
     for y in range(2, sheetTest.max_row):
-        nom = sheetTest.cell(row=y, column=10)
-        id = sheetTest.cell(row=y, column=1)
-        if id != "" :
+        nom = sheetTest.cell(row=y, column=10).value
+        id = sheetTest.cell(row=y, column=1).value
+        if id is not None :
+            valeur = sheetPubli.cell(row=ligne, column=17).value
             if id in string :
-                sheetPubli.cell(row=y, column=17).value = sheetPubli.cell(row=ligne, column=17).value + '/#/' + id
+                if valeur is None:
+                    sheetPubli.cell(row=ligne, column=17).value = id
+                else :
+                    sheetPubli.cell(row=ligne, column=17).value = sheetPubli.cell(row=ligne, column=17).value + ' / ' + id
                 return True
-            elif nom != "":
+            elif nom is not None:
                 if nom in string:
-                    sheetPubli.cell(row=y, column=17).value = sheetPubli.cell(row=ligne, column=17).value + '/#/' + id
+                    if valeur is None:
+                        sheetPubli.cell(row=ligne, column=17).value = id
+                    else :
+                        sheetPubli.cell(row=ligne, column=17).value = sheetPubli.cell(row=ligne, column=17).value + ' / ' + id
                     return True
     return False
 
@@ -42,23 +50,25 @@ sheet3 = file["3 - Publications_ObsStudies"]
 sheet4 = file["4 - Publications_RandTrials"]
 counter = 0
 
-#Parcours Publi Obs
+#Parcours Publi Obsv
 for i in range(2, sheet3.max_row):
-    url = sheet3.cell(i ,8)
-    string = getStringFromUrl(url)
-    if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet1 ,ligne=i):
-        counter = counter + 1
-    if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet2 ,ligne=i):
-        counter = counter + 1
+    url = sheet3.cell(i ,8).value
+    if url is not None:
+        string = getStringFromUrl(url)
+        if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet1 ,ligne=i ,string=string):
+            counter = counter + 1
+        if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet2 ,ligne=i ,string=string):
+            counter = counter + 1
 
 #Parcours Publi Rand
 for i in range(2, sheet4.max_row):
-    url = sheet4.cell(i ,8)
-    string = getStringFromUrl(url)
-    if parcourTest(sheetPubli=sheet4 ,sheetTest=sheet1 ,ligne=i):
-        counter = counter + 1
-    if parcourTest(sheetPubli=sheet4 ,sheetTest=sheet2 ,ligne=i):
-        counter = counter + 1
+    url = sheet4.cell(i ,8).value
+    if url is not None:
+        string = getStringFromUrl(url)
+        if parcourTest(sheetPubli=sheet4 ,sheetTest=sheet1 ,ligne=i, string=string):
+            counter = counter + 1
+        if parcourTest(sheetPubli=sheet4 ,sheetTest=sheet2 ,ligne=i ,string=string):
+            counter = counter + 1
 
 print("On à trouver un total de " + counter + " liaison(s)")
 file.save(path)
