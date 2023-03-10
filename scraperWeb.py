@@ -55,22 +55,22 @@ sheet4 = file["4 - Publications_RandTrials"]
 counter = 0
 
 # #Parcours Publi Obsv
-# for i in range(2, sheet3.max_row):
-#     url = sheet3.cell(i ,8).value
-#     if url is not None:
-#         print(i , " " , url)
-#         string = getStringFromUrl(url)
-#         if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet1 ,ligne=i ,string=string):
-#             counter = counter + 1
-#             print(counter)
-#             file.save(path)
-#         if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet2 ,ligne=i ,string=string):
-#             counter = counter + 1
-#             print(counter)
-#             file.save(path)
+for i in range(2, sheet3.max_row):
+    url = sheet3.cell(i ,8).value
+    if url is not None:
+        print(i , " " , url)
+        string = getStringFromUrl(url)
+        if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet1 ,ligne=i ,string=string):
+            counter = counter + 1
+            print(counter)
+            file.save(path)
+        if parcourTest(sheetPubli=sheet3 ,sheetTest=sheet2 ,ligne=i ,string=string):
+            counter = counter + 1
+            print(counter)
+            file.save(path)
 
 #Parcours Publi Rand
-for i in range(2534, sheet4.max_row):
+for i in range(2, sheet4.max_row):
     url = sheet4.cell(i ,8).value
     if url is not None:
         print(i, " ", url)
