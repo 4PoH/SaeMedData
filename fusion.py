@@ -8,7 +8,7 @@ def IdInSheet(id, sheetOut, num) :
     return False
 
 pathin = "D:\\IUT\\Semestre4\\SAE R4.C10\\20200601_IRIT_clinicalTrials+publications.xlsx"
-pathout = "D:\\IUT\\Semestre4\\SAE R4.C10\\TableSAEFusion1.5.xlsx"
+pathout = "D:\\IUT\\Semestre4\\SAE R4.C10\\TableSAEFusion1.0.xlsx"
 
 filein = xl.load_workbook(pathin)
 fileout = xl.load_workbook(pathout)
@@ -42,8 +42,12 @@ for i in range(2, sheetInTrialRand.max_row):
         rep = IdInSheet(sheetInTrialRand.cell(i,1).value, sheetOutTrial, 18)
         if not rep :
             for j in range(1, sheetInTrialRand.max_column):
-                buffer = sheetInTrialRand.cell(i,j).value
-                sheetOutTrial.cell(counter, j).value = buffer
+                if j < 8:
+                    buffer = sheetInTrialRand.cell(i,j).value
+                    sheetOutTrial.cell(counter, j).value = buffer
+                if j > 8:
+                    buffer = sheetInTrialRand.cell(i,j).value
+                    sheetOutTrial.cell(counter, j-1).value = buffer
             sheetOutTrial.cell(counter, 18).value = True
             sheetOutTrial.cell(counter, 17).value = False
             counter = counter + 1
